@@ -20,4 +20,5 @@
 
 ### 유튜브
 [MBC 한국 도운 협력자들 "수용 검토 중"…난민은 "현재 협의 없어"](https://www.youtube.com/watch?v=vRqwn9-JSzU)
+
 [\"아프간현지인 이송작전 수행중\"...난민 수용 \'청원 논쟁\'](https://www.youtube.com/watch?v=62xeDNJZoI4)
