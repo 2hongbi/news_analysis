@@ -6,12 +6,12 @@ import time
 
 
 def get_replys(url, imp_time=5, delay_time=0.1):
-    #웹 드라이버
-    driver = webdriver.Chrome('./../driver/chromedriver.exe')
+    # 웹 드라이버
+    driver = webdriver.Chrome('../driver/chromedriver.exe')
     driver.implicitly_wait(imp_time)
     driver.get(url)
 
-    #더보기 계속 클릭하기
+    # 더보기 계속 클릭하기
     while True:
         try:
             deobogi = driver.find_element_by_css_selector('a.u_cbox_btn_more')
@@ -52,16 +52,20 @@ def get_replys(url, imp_time=5, delay_time=0.1):
     contents = soup.select('span.u_cbox_contents')
     contents = [content.text for content in contents]
 
-    #작성자
+    # 작성자
     nicks = soup.select('span.u_cbox_nick')
     nicks = [nick.text for nick in nicks]
 
-    #날짜 추출
+    # 날짜 추출
     dates = soup.select('span.u_cbox_date')
     dates = [date.text for date in dates]
 
+    # 추천수 추출
+    likes = soup.select('em.u_cbox_cnt_recomm')
+    likes = [like.text for like in likes]
+
     # 취합
-    replys = list(zip(nicks, dates, contents))
+    replys = list(zip(nicks, dates, contents, likes))
 
     driver.quit()
 
@@ -72,8 +76,10 @@ if __name__ == '__main__':
 
     start = datetime.now()
 
+
+    # 댓글 더보기를 누른 후의 url을 넣어야함
     url_list = {
-        '머니투데이_아프간난민을미군기지로.xlsx': 'https://news.naver.com/main/read.naver?m_view=1&includeAllCount=true&mode=LSD&mid=sec&sid1=102&oid=008&aid=0004634396',
+        # '머니투데이_아프간난민을미군기지로.xlsx': 'https://news.naver.com/main/read.naver?m_view=1&includeAllCount=true&mode=LSD&mid=sec&sid1=102&oid=008&aid=0004634396',
         'news1_아프간난민수용보도에찬반뜨거워.xlsx': 'https://news.naver.com/main/read.naver?m_view=1&includeAllCount=true&mode=LSD&mid=sec&sid1=102&oid=421&aid=0005555453',
         '서울신문_전세계아프간난민딜레마.xlsx': 'https://news.naver.com/main/read.naver?m_view=1&includeAllCount=true&mode=LSD&mid=sec&sid1=104&oid=081&aid=0003210731',
         '한겨레_한국협력한아프간현지인국내이송임박.xlsx': 'https://news.naver.com/main/read.naver?m_view=1&includeAllCount=true&mode=LSD&mid=sec&sid1=100&oid=028&aid=0002557848',
@@ -85,11 +91,9 @@ if __name__ == '__main__':
         url = url_list[title]
         reply_data = get_replys(url, 5, 0.1)
 
-
-        col =['작성자', '날짜', '내용']
-        data_frame = pd.DataFrame(reply_data,columns=col)
-        data_frame.to_excel(title, startrow=0, header=True)
-
+        col = ['작성자', '날짜', '내용', '추천수']
+        data_frame = pd.DataFrame(reply_data, columns=col)
+        data_frame.to_excel('./../data/'+title, startrow=0, header=True)
 
     end = datetime.now()
     print(end-start)
