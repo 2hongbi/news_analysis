@@ -3,7 +3,14 @@
 ## driver
 [ChromeDriver](https://chromedriver.chromium.org/downloads)에 접속하여 본인 Chrome 버전에 맞는 ChromeDriver 다운로드 받기
 
+<hr>
 
+## 형태소분석
+[KoNLPy 클래스 간 비교](https://konlpy.org/ko/latest/morph/#comparison-between-pos-tagging-classes)
+
+<hr>
+
+## "난민" 키워드 관련 뉴스
 ### 일반 뉴스
 [아프간 난민을 韓 미군기지로? "우리가 호구냐" vs "환대해야"](https://news.naver.com/main/read.naver?mode=LSD&mid=sec&sid1=102&oid=008&aid=0004634396)
 
@@ -17,6 +24,7 @@
 
 [\[이슈밀착\] "한국은 선진국... 난민 수용, 선택의 문제 아니라는 점 당당히 말해야"](https://news.naver.com/main/read.naver?mode=LSD&mid=sec&sid1=102&oid=469&aid=0000628032)
 
+<hr>
 
 ### 유튜브
 [MBC 한국 도운 협력자들 "수용 검토 중"…난민은 "현재 협의 없어"](https://www.youtube.com/watch?v=vRqwn9-JSzU)
