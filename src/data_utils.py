@@ -1,9 +1,41 @@
 import pandas as pd
 import os.path
+import time
+from selenium import webdriver
+from tqdm import tqdm
+
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+driver = webdriver.Chrome('../driver\\chromedriver', options=chrome_options)
 
 
-# xlsx 파일 댓글 내용만 추출하여 csv 파일 만드는 함수
+def spell_checking(sentence):
+    # for i in tqdm(range(len(sentence))):
+    try:
+        time.sleep(0.5)
+        driver.get('https://speller.cs.pusan.ac.kr/')
+        driver.find_element_by_xpath('//*[@id="text1"]').send_keys(sentence)
+        driver.find_element_by_xpath('//*[@id="btnCheck"]').click()
+        time.sleep(1)
+        num = 0
+        while True:
+            try:
+                replace = driver.find_element_by_xpath('//*[@id="tdReplaceWord_' + str(num) + '"]/ul/li/a').text
+                print(replace)
+                num += 1
+            except:
+                # didnt know the exact cause of exception -> 일단은 bare하게 처리
+                print('[ERROR] spell_checking NUM :', num)
+                break
+        texts = driver.find_element_by_xpath('//*[@id="tdCorrection1stBox"]').text
+        print(texts)
+    finally:
+        driver.close()
+
 def extract_comments(file, output, type='nv'):
+    # xlsx 파일 댓글 내용만 추출하여 csv 파일 만드는 함수
     df = pd.read_excel(file)
     column = ['내용']
     if type == 'yt':
@@ -16,7 +48,7 @@ def extract_comments(file, output, type='nv'):
                   header=False)
 
 
-if __name__ == '__main__':
+def main():
     nv_file_list = [
         '머니투데이_아프간난민을미군기지로.xlsx',
         'news1_아프간난민수용보도에찬반뜨거워.xlsx',
