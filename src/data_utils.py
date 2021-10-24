@@ -1,6 +1,7 @@
 import pandas as pd
 import os.path
 import time
+from hanspell import spell_checker
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from tqdm import tqdm
@@ -12,9 +13,15 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome('../driver\\chromedriver', options=chrome_options)
 
 
-def spell_checking(sentence):
-    # for i in tqdm(range(len(sentence))):
+def hanspell_checking(sentence):
+    sent = spell_checker.check(sentence)
+    return sent.checked
 
+
+# 개선 필요 / 시간이 오래 걸려 현재 spell_checking 함수는 사용하지 않음
+def spell_checking(sentence):
+    # 한국어 맞춤법/문법 검사기
+    # for i in tqdm(range(len(sentence))):
     time.sleep(1)
     driver.get('https://speller.cs.pusan.ac.kr/')
     driver.find_element_by_xpath('//*[@id="text1"]').send_keys(sentence)
@@ -31,7 +38,6 @@ def spell_checking(sentence):
             print('[ERROR] NO FOUND')
             break
     return sentence
-
 
 
 def extract_comments(file, output, type='nv'):

@@ -1,7 +1,7 @@
 import csv
 import re
 # https://github.com/ssut/py-hanspell  https://hasiki.tistory.com/71 참고
-from hanspell import spell_checker
+from src.data_utils import hanspell_checking
 
 
 def cleansing(text):
@@ -41,19 +41,27 @@ def cleansing(text):
                          u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
                          "]+", flags=re.UNICODE)
     text = pattern.sub(r'', text)
+    text = hanspell_checking(text)
 
     return text
 
 
 if __name__ == '__main__':
     result = []
+    result_ = []
     with open('./../data/all_nanmin_comments.csv', 'r', encoding='utf-8-sig') as f:
         data = f.readlines()
         for d in data:
             result.append('전 >' + d)
             result.append('후 >' + cleansing(d))
+            result_.append(cleansing(d))
+
+    with open('./../data/cleansing/diff_cleansing.csv', 'w', encoding='utf-8-sig', newline='') as f:
+        writer = csv.writer(f)
+        for r in result:
+            writer.writerow([r])
 
     with open('./../data/cleansing/after_cleansing.csv', 'w', encoding='utf-8-sig', newline='') as f:
         writer = csv.writer(f)
-        for r in result:
+        for r in result_:
             writer.writerow([r])
