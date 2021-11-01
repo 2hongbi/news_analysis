@@ -1,4 +1,4 @@
-import csv
+import pandas as pd
 import re
 # https://github.com/ssut/py-hanspell  https://hasiki.tistory.com/71 참고
 from src.data_utils import hanspell_checking
@@ -47,21 +47,7 @@ def cleansing(text):
 
 
 if __name__ == '__main__':
-    result = []
-    result_ = []
-    with open('./../data/all_nanmin_comments.csv', 'r', encoding='utf-8-sig') as f:
-        data = f.readlines()
-        for d in data:
-            result.append('전 >' + d)
-            result.append('후 >' + cleansing(d))
-            result_.append(cleansing(d))
 
-    with open('./../data/cleansing/diff_cleansing.csv', 'w', encoding='utf-8-sig', newline='') as f:
-        writer = csv.writer(f)
-        for r in result:
-            writer.writerow([r])
-
-    with open('./../data/cleansing/after_cleansing.csv', 'w', encoding='utf-8-sig', newline='') as f:
-        writer = csv.writer(f)
-        for r in result_:
-            writer.writerow([r])
+    df = pd.read_csv('./../data/all_nanmin_comments_with_likes.csv')
+    df['comment'] = df['comment'].apply(cleansing)
+    df.to_csv('./../data/cleansing/after_cleansing_with_likes.csv', sep=',', na_rep='NaN', encoding='utf-8-sig')

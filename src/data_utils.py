@@ -43,15 +43,15 @@ def spell_checking(sentence):
 def extract_comments(file, output, type='nv'):
     # xlsx 파일 댓글 내용만 추출하여 csv 파일 만드는 함수
     df = pd.read_excel(file)
-    column = ['내용']
+    column = ['내용', '추천수']
     if type == 'yt':
-        column = ['comment']
+        column = ['comment', 'num_likes']
     if os.path.isfile(output):
         df.to_csv(output, sep=',', na_rep='NaN', columns=column, index=False, mode='a', encoding='utf-8-sig',
-                  header=False)
+                  header=['comment', 'num_likes'])
     else:
         df.to_csv(output, sep=',', na_rep='NaN', columns=column, index=False, mode='w', encoding='utf-8-sig',
-                  header=False)
+                  header=['comment', 'num_likes'])
 
 
 def main():
@@ -65,10 +65,10 @@ def main():
     ]
 
     for file in nv_file_list:
-        extract_comments('./../data/comments/'+file, './../data/all_nanmin_comments.csv')
+        extract_comments('./../data/comments/'+file, './../data/all_nanmin_comments_with_likes.csv')
         continue
 
     yt_file_list = ['channelA_news.xlsx', 'mbc_news.xlsx']
 
     for file in yt_file_list:
-        extract_comments('./../data/comments/'+file, './../data/all_nanmin_comments.csv', type='yt')
+        extract_comments('./../data/comments/'+file, './../data/all_nanmin_comments_with_likes.csv', type='yt')
