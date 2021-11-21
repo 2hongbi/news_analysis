@@ -48,6 +48,6 @@ def cleansing(text):
 
 if __name__ == '__main__':
 
-    df = pd.read_csv('./../data/all_nanmin_comments_with_likes.csv')
+    df = pd.read_csv('../data/all_nanmin_comments_with_likes.csv')
     df['comment'] = df['comment'].apply(cleansing)
     df.to_csv('./../data/cleansing/after_cleansing_with_likes.csv', sep=',', na_rep='NaN', encoding='utf-8-sig')
