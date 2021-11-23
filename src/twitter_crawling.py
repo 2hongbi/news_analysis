@@ -19,17 +19,16 @@ def grab_tweets(search, file, since):
 
 if __name__ == '__main__':
 
-    # candidate = ['이재명', '윤석열', '안철수', '심상정']
+    candidate = ['안철수', '심상정']
     # part = ['부동산', '경제', '외교안보', '권력기관개혁', '청년문제']
-    candidate = ['심상정']
-    part = ['청년문제']
 
-    result = [" ".join(i) for i in product(candidate, part)]
-    print(result, len(result))
+    # result = [" ".join(i) for i in product(candidate, part)]
+    # print(result, len(result)
 
-    for q in tqdm.notebook.tqdm(result):
+    for q in tqdm.notebook.tqdm(candidate):
+        print('>> ' + q)
         try:
-            grab_tweets(q, './../data/twitter/'+q+'.json', '2021-08-01')
+            grab_tweets(q, './../data/twitter/'+q+'.json', '2021-11-01')
 
             df = pd.read_json('./../data/twitter/'+q+'.json', lines=True)
             df['tweet'] = df['tweet'].apply(cleansing)
