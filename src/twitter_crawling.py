@@ -2,9 +2,6 @@ from itertools import product
 
 import tqdm.notebook
 import twint
-from src.word_processing import cleansing
-import pandas as pd
-from tqdm import tqdm_notebook
 
 
 def grab_tweets(search, file, since):
@@ -28,12 +25,12 @@ if __name__ == '__main__':
     for q in tqdm.notebook.tqdm(candidate):
         print('>> ' + q)
         try:
-            grab_tweets(q, './../data/twitter/'+q+'.json', '2021-11-01')
+            grab_tweets(q, './../data/twitter/'+q+'.json', '2021-11-10')
 
             df = pd.read_json('./../data/twitter/'+q+'.json', lines=True)
             df['tweet'] = df['tweet'].apply(cleansing)
 
-            new_df = df.filter(['tweet', 'date', 'retweets_count',' likes_count', 'link'], axis=1)
+            new_df = df.filter(['tweet', 'date', 'retweets_count', 'likes_count', 'link'], axis=1)
             new_df.to_csv('./../data/twitter/'+q+'.csv', encoding='utf-8-sig', index=False)
         except ValueError:
             print('>>> Value Error: '+q)

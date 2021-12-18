@@ -1,3 +1,5 @@
+import re
+
 import pandas as pd
 import os.path
 import time
@@ -16,6 +18,21 @@ driver = webdriver.Chrome('../driver\\chromedriver', options=chrome_options)
 def hanspell_checking(sentence):
     sent = spell_checker.check(sentence)
     return sent.checked
+
+
+def remove_tags(text):
+    # (), [] 및 사이 단어들 제거
+    pattern = '[\(\[].*?[\)\]]'
+    text = re.sub(pattern, repl='', string=text)
+
+    # 특수문자들
+    pattern = '[-=+,#/\?:^$.@*\"※~&ㆍ‥!』\\‘|\(\)\[\]\<\>`\'…\"\“”》]'
+    text = re.sub(pattern, repl='', string=text)
+
+    # 공백 제거
+    # text = text.replace(" ", "")
+
+    return text
 
 
 # 개선 필요 / 시간이 오래 걸려 현재 spell_checking 함수는 사용하지 않음
